@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing Strategies</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/Users/clark/microservices/index.html">Java Microservices Guide</a>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <section id="testing" class="py-5 bg-light">
+            <div class="container">
+                <h2>10. Testing Strategies</h2>
+                <p class="lead">A comprehensive testing strategy for microservices architectures.</p>
+
+                <h4>The Testing Pyramid in a Microservices World</h4>
+                <p>Testing microservices is challenging. Instead of testing a single application, you need to test a distributed system of services. The traditional testing pyramid still applies, but with some new twists:</p>
+                <ul>
+                    <li><strong>Unit Tests:</strong> These are the fastest and cheapest tests. You should have a lot of them.</li>
+                    <li><strong>Integration Tests:</strong> These tests verify the interactions between a service and its external dependencies, such as a database or a message broker.</li>
+                    <li><strong>Component Tests:</strong> These tests test a single microservice in isolation. They typically involve spinning up the service and its dependencies (e.g., a database) in a test environment.</li>
+                    <li><strong>Contract Tests:</strong> These tests verify that two services can communicate with each other. They are a great way to catch breaking changes in an API.</li>
+                    <li><strong>End-to-End Tests:</strong> These tests test the entire system, from the UI to the backend services. They are slow and expensive, so you should have fewer of them.</li>
+                </ul>
+
+                <h4>Implementation with Java & Spring</h4>
+                <p>Spring Boot provides excellent support for testing. Here are some of the tools you can use:</p>
+                <ul>
+                    <li><strong>Unit Tests:</strong> JUnit and Mockito are the standard tools for unit testing in the Java world.</li>
+                    <li><strong>Integration Tests:</strong> You can use the `@SpringBootTest` annotation to load your entire application context in a test. Testcontainers is a great library for spinning up Docker containers for your dependencies (e.g., a PostgreSQL database) in your tests.</li>
+                    <li><strong>Contract Tests:</strong> Spring Cloud Contract is a framework that allows you to write contract tests as Groovy DSLs.</li>
+                </ul>
+
+                <h4>Real-World Use Case: Preventing Breaking Changes in an API</h4>
+                <p>The `order-service` depends on the `payment-service`. The team working on the `payment-service` wants to make a change to their API, but they're not sure if it will break the `order-service`. By using contract tests, they can define a contract that specifies how the two services should communicate. If the change to the `payment-service` breaks the contract, the build will fail, and the team will know that they need to coordinate with the `order-service` team.</p>
+
+                <h4>Real-World Examples</h4>
+                <ul>
+                    <li><strong>JUnit:</strong> The most popular testing framework for Java.</li>
+                    <li><strong>Mockito:</strong> The most popular mocking framework for Java.</li>
+                    <li><strong>Testcontainers:</strong> A Java library that provides lightweight, throwaway instances of common databases, Selenium web browsers, or anything else that can run in a Docker container.</li>
+                    <li><strong>Spring Cloud Contract:</strong> A framework for consumer-driven contract testing.</li>
+                </ul>
+
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="https://www.martinfowler.com/articles/microservice-testing/" target="_blank">Martin Fowler's article on Microservice Testing</a></li>
+                    <li><a href="https://testcontainers.org/" target="_blank">Testcontainers Website</a></li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

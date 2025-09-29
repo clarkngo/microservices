@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resilience & Fault Tolerance</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/Users/clark/microservices/index.html">Java Microservices Guide</a>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <section id="resilience" class="py-5">
+            <div class="container">
+                <h2>5. Resilience and Fault Tolerance</h2>
+                <p class="lead">Building applications that can withstand and recover from failures.</p>
+
+                <h4>Resilience Patterns</h4>
+                <p>In a distributed system, failures are inevitable. Services can become unavailable, networks can be unreliable, and latency can be unpredictable. Resilience patterns are essential for building fault-tolerant applications that can gracefully handle these failures and prevent them from cascading throughout the system.</p>
+                <ul>
+                    <li><strong>Circuit Breaker:</strong> This pattern prevents an application from repeatedly trying to connect to a service that is down. After a certain number of consecutive failures, the circuit breaker "trips," and for a period of time, all subsequent calls to the service will fail immediately. This gives the failing service time to recover.</li>
+                    <li><strong>Retry:</strong> This pattern allows an application to automatically retry a failed operation a certain number of times. This can be useful for transient failures, such as a temporary network glitch.</li>
+                    <li><strong>Fallback:</strong> This pattern provides a default response when a service is unavailable. For example, if a recommendation service is down, you could return a list of generic, popular products instead of personalized recommendations.</li>
+                    <li><strong>Bulkhead:</strong> This pattern isolates elements of an application into pools so that if one fails, the others will continue to function. For example, you can limit the number of concurrent calls to a specific service, so that a failure in that service doesn't exhaust all the threads in the calling service.</li>
+                </ul>
+
+                <h4>Implementation with Java & Resilience4j</h4>
+                <p>Resilience4j is a lightweight, easy-to-use fault tolerance library for Java. It provides implementations of all the major resilience patterns. Here's how you can use it with Spring Boot.</p>
+                <p><strong>Circuit Breaker and Fallback (`application.yml`):</strong></p>
+                <pre><code>
+resilience4j.circuitbreaker:
+  instances:
+    productService:
+      slidingWindowSize: 10
+      failureRateThreshold: 50
+      waitDurationInOpenState: 10s
+                </code></pre>
+                <p><strong>Java Code:</strong></p>
+                <pre><code>
+@CircuitBreaker(name = "productService", fallbackMethod = "getProductsFallback")
+public List<Product> getProducts() {
+    // ... call to product service
+}
+
+public List<Product> getProductsFallback(Throwable t) {
+    // Return a default list of products
+    return Collections.emptyList();
+}
+                </code></pre>
+
+                <h4>Real-World Use Case: Handling a Slow Downstream Service</h4>
+                <p>Imagine a `product-details-service` that calls a `review-service` to get product reviews. If the `review-service` becomes slow, the `product-details-service` will also become slow, and this slowness can cascade to upstream services. By wrapping the call to the `review-service` in a circuit breaker, the `product-details-service` can detect the slowness and "trip" the circuit. Subsequent calls will immediately fail and return a fallback response (e.g., an empty list of reviews), preventing the slowness from affecting the rest of the application.</p>
+
+                <h4>Real-World Examples</h4>
+                <ul>
+                    <li><strong>Netflix Hystrix:</strong> The original circuit breaker library from Netflix. While it's no longer in active development, it popularized the pattern.</li>
+                    <li><strong>Resilience4j:</strong> The recommended replacement for Hystrix in the Spring ecosystem. It's a more modern, lightweight, and functional library.</li>
+                </ul>
+
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="https://resilience4j.readme.io/" target="_blank">Resilience4j Documentation</a></li>
+                    <li><a href="https://spring.io/projects/spring-cloud-circuitbreaker" target="_blank">Spring Cloud Circuit Breaker</a></li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

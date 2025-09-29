@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inter-service Communication</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/Users/clark/microservices/index.html">Java Microservices Guide</a>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <section id="communication" class="py-5 bg-light">
+            <div class="container">
+                <h2>6. Inter-service Communication</h2>
+                <p class="lead">How services talk to each other.</p>
+
+                <h4>Synchronous vs. Asynchronous Communication</h4>
+                <p>Microservices need to communicate with each other. There are two main styles of communication:</p>
+                <ul>
+                    <li><strong>Synchronous Communication:</strong> The client sends a request and waits for a response. This is a blocking operation. The most common protocol for synchronous communication is HTTP, with services exposing REST APIs. This style is simple to implement and understand, but it can lead to tight coupling and reduced availability. If a downstream service is slow or unavailable, the client will be blocked.</li>
+                    <li><strong>Asynchronous Communication:</strong> The client sends a message without waiting for an immediate response. This is a non-blocking operation. Asynchronous communication is usually implemented with a message broker like RabbitMQ or Apache Kafka. This style promotes loose coupling and improves resilience. If a service is down, the message can be stored in a queue and processed later.</li>
+                </ul>
+
+                <h4>Implementation with Java & Spring</h4>
+                <p><strong>Synchronous (Spring's `WebClient`):</strong></p>
+                <pre><code>
+@Service
+public class ProductService {
+
+    private final WebClient webClient;
+
+    public ProductService(WebClient.Builder webClientBuilder) {
+        this.webClient = webClientBuilder.baseUrl("http://inventory-service").build();
+    }
+
+    public Mono<Product> getProduct(String productId) {
+        return this.webClient.get().uri("/products/{id}", productId)
+                .retrieve().bodyToMono(Product.class);
+    }
+}
+                </code></pre>
+                <p><strong>Asynchronous (Spring AMQP with RabbitMQ):</strong></p>
+                <pre><code>
+@Component
+public class OrderListener {
+
+    @RabbitListener(queues = "orders")
+    public void receiveOrder(Order order) {
+        // Process the order
+    }
+}
+                </code></pre>
+
+                <h4>Real-World Use Case: Online Food Ordering</h4>
+                <p>When a user places an order in a food delivery app, the `order-service` needs to do several things:</p>
+                <ul>
+                    <li><strong>Synchronous:</strong> It needs to immediately confirm to the user that the order has been received. This is a synchronous operation.</li>
+                    <li><strong>Asynchronous:</strong> It then needs to notify the restaurant, find a driver, and update the order status. These can all be done asynchronously. The `order-service` can publish an `OrderPlaced` event to a message broker. The `restaurant-notification-service` and `driver-dispatch-service` can then subscribe to this event and perform their respective tasks.</li>
+                </ul>
+
+                <h4>Real-World Examples</h4>
+                <p>Most large-scale microservices architectures use a combination of both synchronous and asynchronous communication. For example, an e-commerce site might use synchronous communication for user-facing operations like fetching product details, and asynchronous communication for backend processes like order fulfillment and shipping notifications.</p>
+
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="https://spring.io/guides/gs/messaging-rabbitmq/" target="_blank">Spring Guide to Messaging with RabbitMQ</a></li>
+                    <li><a href="https://spring.io/projects/spring-kafka" target="_blank">Spring for Apache Kafka</a></li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

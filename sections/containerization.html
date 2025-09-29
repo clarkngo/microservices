@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Containerization & Orchestration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/Users/clark/microservices/index.html">Java Microservices Guide</a>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <section id="containerization" class="py-5">
+            <div class="container">
+                <h2>9. Containerization & Orchestration</h2>
+                <p class="lead">Using Docker and Kubernetes to deploy and manage microservices.</p>
+
+                <h4>The Rise of Containers</h4>
+                <p>Containers, and Docker in particular, have revolutionized the way we build and deploy software. A container packages up an application's code, libraries, and dependencies into a single, isolated unit. This makes it easy to move applications between different environments (e.g., from a developer's laptop to a production server) without having to worry about inconsistencies.</p>
+                <p>For microservices, containers are a perfect fit. Each microservice can be packaged as a container, and then you can use a container orchestrator like Kubernetes to manage all your containers.</p>
+
+                <h4>Implementation with Docker & Kubernetes</h4>
+                <p>Here's a simple `Dockerfile` for a Spring Boot application:</p>
+                <pre><code>
+FROM openjdk:11-jre-slim
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
+                </code></pre>
+                <p>And here's a simple Kubernetes `Deployment` to run three instances of the application:</p>
+                <pre><code>
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-app
+        image: my-app:1.0.0
+        ports:
+        - containerPort: 8080
+                </code></pre>
+
+                <h4>Real-World Use Case: A Global Ride-Sharing App</h4>
+                <p>A ride-sharing app needs to be available 24/7 and handle huge fluctuations in demand. By containerizing their microservices and using Kubernetes, they can automatically scale their services up and down based on real-time traffic. If a server fails, Kubernetes can automatically restart the affected containers on another server, ensuring high availability.</p>
+
+                <h4>Real-World Examples</h4>
+                <ul>
+                    <li><strong>Docker:</strong> The leading container platform.</li>
+                    <li><strong>Kubernetes:</strong> The leading container orchestration platform.</li>
+                    <li><strong>Google Kubernetes Engine (GKE):</strong> A managed Kubernetes service from Google Cloud.</li>
+                    <li><strong>Amazon Elastic Kubernetes Service (EKS):</strong> A managed Kubernetes service from AWS.</li>
+                </ul>
+
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="https://www.docker.com/" target="_blank">Docker Website</a></li>
+                    <li><a href="https://kubernetes.io/" target="_blank">Kubernetes Website</a></li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,7 +54,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Introduction to Microservices</h5>
                         <p class="card-text">Structuring an application as a collection of small, autonomous services.</p>
-                        <a href="#intro" class="btn btn-primary">Learn More</a>
+                        <a href="/Users/clark/microservices/sections/intro.html" class="btn btn-primary">Learn More</a>
                     </div>
                 </div>
             </div>
@@ -69,7 +68,7 @@
                     <div class="card-body">
                         <h5 class="card-title">API Gateway</h5>
                         <p class="card-text">A single entry point for all clients, providing routing and cross-cutting concerns.</p>
-                        <a href="#api-gateway" class="btn btn-primary">Learn More</a>
+                        <a href="/Users/clark/microservices/sections/api-gateway.html" class="btn btn-primary">Learn More</a>
                     </div>
                 </div>
             </div>
@@ -83,7 +82,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Service Discovery</h5>
                         <p class="card-text">How services find and communicate with each other in a dynamic environment.</p>
-                        <a href="#service-discovery" class="btn btn-primary">Learn More</a>
+                        <a href="/Users/clark/microservices/sections/service-discovery.html" class="btn btn-primary">Learn More</a>
                     </div>
                 </div>
             </div>
@@ -98,7 +97,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Configuration Management</h5>
                         <p class="card-text">Centralized management of configuration for all microservices.</p>
-                        <a href="#config-management" class="btn btn-primary">Learn More</a>
+                        <a href="/Users/clark/microservices/sections/config-management.html" class="btn btn-primary">Learn More</a>
                     </div>
                 </div>
             </div>
@@ -112,7 +111,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Resilience & Fault Tolerance</h5>
                         <p class="card-text">Building fault-tolerant applications that can handle service failures gracefully.</p>
-                        <a href="#resilience" class="btn btn-primary">Learn More</a>
+                        <a href="/Users/clark/microservices/sections/resilience.html" class="btn btn-primary">Learn More</a>
                     </div>
                 </div>
             </div>
@@ -127,7 +126,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Inter-service Communication</h5>
                         <p class="card-text">Patterns for communication between microservices, both synchronous and asynchronous.</p>
-                        <a href="#communication" class="btn btn-primary">Learn More</a>
+                        <a href="/Users/clark/microservices/sections/communication.html" class="btn btn-primary">Learn More</a>
                     </div>
                 </div>
             </div>
@@ -142,7 +141,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Distributed Tracing</h5>
                         <p class="card-text">Tracing requests as they span multiple services for debugging and analysis.</p>
-                        <a href="#distributed-tracing" class="btn btn-primary">Learn More</a>
+                        <a href="/Users/clark/microservices/sections/distributed-tracing.html" class="btn btn-primary">Learn More</a>
                     </div>
                 </div>
             </div>
@@ -156,7 +155,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Security</h5>
                         <p class="card-text">Authenticating users and services, and authorizing access to resources.</p>
-                        <a href="#security" class="btn btn-primary">Learn More</a>
+                        <a href="/Users/clark/microservices/sections/security.html" class="btn btn-primary">Learn More</a>
                     </div>
                 </div>
             </div>
@@ -173,7 +172,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Containerization & Orchestration</h5>
                         <p class="card-text">Using Docker and Kubernetes to deploy and manage microservices.</p>
-                        <a href="#containerization" class="btn btn-primary">Learn More</a>
+                        <a href="/Users/clark/microservices/sections/containerization.html" class="btn btn-primary">Learn More</a>
                     </div>
                 </div>
             </div>
@@ -186,17 +185,11 @@
                     <div class="card-body">
                         <h5 class="card-title">Testing Strategies</h5>
                         <p class="card-text">A comprehensive testing strategy for microservices architectures.</p>
-                        <a href="#testing" class="btn btn-primary">Learn More</a>
+                        <a href="/Users/clark/microservices/sections/testing.html" class="btn btn-primary">Learn More</a>
                     </div>
                 </div>
             </div>
 
-        </div>
-
-        <hr class="my-5">
-
-        <div id="details">
-            <!-- Detailed sections from the original file will be injected here -->
         </div>
 
     </div>
@@ -206,19 +199,5 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script>
-        // Simple script to load the detailed content into the details section
-        fetch(window.location.href)
-            .then(response => response.text())
-            .then(html => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const details = doc.querySelectorAll('#details > section');
-                const detailsContainer = document.getElementById('details');
-                details.forEach(section => {
-                    detailsContainer.appendChild(section);
-                });
-            });
-    </script>
 </body>
 </html>
